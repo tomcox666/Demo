@@ -1,0 +1,86 @@
+import tkinter as tk
+import numpy as np
+
+size = w, h = 700, 700 #pixels
+
+root = tk.Tk()
+root.title("Boing!")
+canvas = tk.Canvas(root, width=w, height=h)
+canvas.pack()
+
+
+# Stepper function to update the state of the system (i.e. the position and velocity of the ball)
+def step(dt):
+
+# Save a copy of the original state
+    r0 = r.copy()
+    
+# Update the position using the Euler method - nice and easy!
+    r[:,:2] += r[:,2:]*dt
+        
+# bounce off right wall
+    inx= r[:,0] > (w - rball)
+    if np.sum(inx)>0:
+        r[inx,2] = -r[inx,2]
+        r[inx,0] += (w - rball) - r[inx,0]  - 1.
+        
+#bounce off left wall
+    inx=r[:,0] < rball
+    if np.sum(inx) > 0:
+        r[inx,2] = -r[inx,2]
+        r[inx,0] += rball - r[inx,0] + 1.
+
+#define acceleration and update the position and velocity
+    
+    #g=10
+    #r[3] +=g*dt
+    #r[1] +=r[3]*dt
+    
+#bounce off floor
+
+    iny = r[:,1] > (h-rball)
+    if np.sum(iny)>0:
+        r[iny,3] = -0.99*r[iny,3]
+        r[iny,1] += (h - rball) - r[iny,1]  - 0.001
+    
+#Bounce off ceiling 
+    iny = r[:,1] < rball
+    if np.sum(iny) >0:
+        r[iny,3] = -0.99*r[iny,3]
+        r[iny,1] += rball - r[iny,1] + 0.001
+    
+    
+
+# Find difference of the original and new position and pass to move function
+    dx = r[:,0] - r0[:,0]
+    dy = r[:,1] - r0[:,1]
+    for j in binx:
+        canvas.move(balls[j], dx[j], dy[j])
+
+N = 3
+binx = np.arange(N)    
+    
+
+# The "state" of the ball: Components are: rx, ry, vx, vy.
+r = np.zeros((N, 4))
+r[0,:] = [350.,150.,-10.,5.]
+r[1,:] = [350.,350.,10.,20.]
+r[2,:] = [350.,550.,20.,30.]
+
+# Ball radius
+rball = 40
+
+balls = []
+for i in np.arange(N):
+    x1, y1, x2, y2 = r[i,0] - rball, r[i,1] - rball, r[i,0] + rball, r[i,1] + rball
+    ball = canvas.create_oval(x1, y1, x2, y2, fill='orange')
+    balls.append(ball)
+
+# This bit repeatedly calls the stepper function after a short (1 ms interval)
+def animation():
+    """docstring for animation"""
+    step(0.5)
+    root.after(40, animation)
+
+root.after(0, animation)
+root.mainloop()

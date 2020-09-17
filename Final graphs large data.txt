@@ -1,0 +1,149 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import glob as glob
+import os
+
+%matplotlib inline
+plt.ion()
+
+plt.figure(figsize=(18, 12))
+
+
+
+%cd F:\Transfer\1.5au - 3.5au\e=0.1\data_rep_1
+    
+f=open("lastlinefile1.txt", "w")    
+f.close()
+os.remove("lastlinefile1.txt")
+for file in os.listdir("."):
+    if file.endswith(".txt"):
+        list_dir = os.listdir('.')
+        list_dir = [f.lower() for f in list_dir]   # Convert to lower case
+        files=sorted(list_dir)
+
+i=0
+f=open("lastlinefile1.txt", "w")
+for i in range(201):
+    f=open("lastlinefile1.txt", "a")
+    with open(files[i], "r") as file:
+        lastline = (list(file)[-1])
+        f.write(lastline)
+    f.close()
+    
+%cd F:\Transfer\1.5au - 3.5au\e=0.1\data_rep_2
+
+f.close()
+os.remove("lastlinefile2.txt")
+for file in os.listdir("."):
+    if file.endswith(".txt"):
+        list_dir = os.listdir('.')
+        list_dir = [f.lower() for f in list_dir]   # Convert to lower case
+        files=sorted(list_dir)
+
+i=0
+f=open("lastlinefile2.txt", "w")
+for i in range(201):
+    f=open("lastlinefile2.txt", "a")
+    with open(files[i], "r") as file:
+        lastline = (list(file)[-1])
+        f.write(lastline)
+    f.close()
+
+    
+%cd F:\Transfer\1.5au - 3.5au\e=0.1\data_rep_3
+    
+f.close()
+os.remove("lastlinefile3.txt")
+for file in os.listdir("."):
+    if file.endswith(".txt"):
+        list_dir = os.listdir('.')
+        list_dir = [f.lower() for f in list_dir]   # Convert to lower case
+        files=sorted(list_dir)
+
+i=0
+f=open("lastlinefile3.txt", "w")
+for i in range(201):
+    f=open("lastlinefile3.txt", "a")
+    with open(files[i], "r") as file:
+        lastline = (list(file)[-1])
+        f.write(lastline)
+    f.close()
+
+    
+%cd F:\Transfer\1.5au - 3.5au\e=0.1\data_rep_4
+    
+f.close()
+os.remove("lastlinefile4.txt")
+for file in os.listdir("."):
+    if file.endswith(".txt"):
+        list_dir = os.listdir('.')
+        list_dir = [f.lower() for f in list_dir]   # Convert to lower case
+        files=sorted(list_dir)
+
+i=0
+f=open("lastlinefile4.txt", "w")
+for i in range(201):
+    f=open("lastlinefile4.txt", "a")
+    with open(files[i], "r") as file:
+        lastline = (list(file)[-1])
+        f.write(lastline)
+    f.close()
+    
+    
+    
+%cd F:\Transfer\1.5au - 3.5au\e=0.1\data_rep_5
+    
+f.close()
+os.remove("lastlinefile5.txt")
+for file in os.listdir("."):
+    if file.endswith(".txt"):
+        list_dir = os.listdir('.')
+        list_dir = [f.lower() for f in list_dir]   # Convert to lower case
+        files=sorted(list_dir)
+
+i=0
+f=open("lastlinefile5.txt", "w")
+for i in range(201):
+    f=open("lastlinefile5.txt", "a")
+    with open(files[i], "r") as file:
+        lastline = (list(file)[-1])
+        f.write(lastline)
+    f.close()
+    
+    
+%cd F:\Transfer\1.5au - 3.5au\e=0.1\data_rep_1    
+
+datafile11="lastlinefile1.txt"
+data11 = np.recfromtxt(datafile11, names=['time','x0','x1','x2','v0','v1','v2','a0','a1','a2','E','a_p','e_p'])
+
+%cd F:\Transfer\1.5au - 3.5au\e=0.1\data_rep_2
+
+datafile12="lastlinefile2.txt"
+data12 = np.recfromtxt(datafile12, names=['time','x0','x1','x2','v0','v1','v2','a0','a1','a2','E','a_p','e_p'])
+
+%cd F:\Transfer\1.5au - 3.5au\e=0.1\data_rep_3
+
+datafile13="lastlinefile3.txt"
+data13 = np.recfromtxt(datafile13, names=['time','x0','x1','x2','v0','v1','v2','a0','a1','a2','E','a_p','e_p'])
+
+%cd F:\Transfer\1.5au - 3.5au\e=0.1\data_rep_4
+
+datafile14="lastlinefile4.txt"
+data14 = np.recfromtxt(datafile14, names=['time','x0','x1','x2','v0','v1','v2','a0','a1','a2','E','a_p','e_p'])
+
+%cd F:\Transfer\1.5au - 3.5au\e=0.1\data_rep_5
+
+datafile15="lastlinefile5.txt"
+data15 = np.recfromtxt(datafile15, names=['time','x0','x1','x2','v0','v1','v2','a0','a1','a2','E','a_p','e_p'])
+
+x=np.linspace(1.5,3.5,num=201)
+plt.plot(x, np.log(data11.time),'.',label="Repeat 1")
+plt.plot(x, np.log(data12.time),'.',label="Repeat 2")
+plt.plot(x, np.log(data13.time),'.',label="Repeat 3")
+plt.plot(x, np.log(data14.time),'.',label="Repeat 4")
+plt.plot(x, np.log(data15.time),'.',label="Repeat 5")
+
+plt.title("orbital lifetime for varying semi major axes at eccentricity of 0.1",fontsize=20)
+plt.xlabel("semimajor axis (au)",fontsize=20)
+plt.ylabel("log runtime (orbits)",fontsize=20)
+plt.legend(loc="upper left")
